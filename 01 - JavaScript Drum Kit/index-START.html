@@ -59,6 +59,35 @@
 
 <script>
 
+  function playSound(e) {
+    // Find the associated audio tag with the data key of the pressed keystroke
+    const audio = document.querySelector(`audio[data-key="${e.keyCode}"]`);
+    // Find the div tag associated with the data key of the pressed keystroke
+    const key = document.querySelector(`.key[data-key="${e.keyCode}"]`);
+    // Catch null case where if there is no audio (no data-key associated with that pressed keystroke)
+    if(!audio) return;
+    // Catch case where if you hit the same keystroke consecutively, it will rewind the audio recording
+    audio.currentTime = 0;
+    // Play the audio track when key is pressed
+    audio.play();
+    // Add a class of 'playing' to div when key is pressed, adds border color
+    key.classList.add('playing')
+  };
+
+  function removeTransition(e) {
+    // Skip it if it is not a transform
+    if(e.propertyName !== 'transform') return;
+    // Remove the class 'playing'
+    this.classList.remove('playing');
+  }
+
+  // Obtain an array of elements with a class of key
+  const keys = document.querySelectorAll('.key');
+  // Iterate through the keys array, add the even listener transitionend and run the callback function removeTransition.
+  keys.forEach(key => key.addEventListener('transitionend', removeTransition));
+
+  // Listen for a key down event and playSound
+  window.addEventListener('keydown', playSound);
 </script>
 
 
