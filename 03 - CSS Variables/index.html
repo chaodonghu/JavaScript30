@@ -21,6 +21,12 @@
   <img src="https://source.unsplash.com/7bwQXzbF6KE/800x500">
 
   <style>
+
+
+    /*
+      misc styles, nothing to do with CSS variables
+    */
+
     :root {
       --base: #ffc600;
       --spacing: 10px;
@@ -33,13 +39,9 @@
       filter: blur(var(--blur));
     }
 
-    .hl {
+    .h1 {
       color: var(--base);
     }
-
-    /*
-      misc styles, nothing to do with CSS variables
-    */
 
     body {
       text-align: center;
@@ -62,15 +64,20 @@
   <script>
     const inputs = document.querySelectorAll('.controls input');
 
-    function handleUpdate() {
+    function handleUpdate(){
+      // Dataset puts all of the keys with data- into an object
       const suffix = this.dataset.sizing || '';
+
+      // Grab the name property of each input tag and update it by appending the value which we
+      //  get from the input event Listener and append the suffix which grabs the pixels
       document.documentElement.style.setProperty(`--${this.name}`, this.value + suffix);
     }
 
+    // Add an event listener that listens to a change on the inputs and call handleUpdate
     inputs.forEach(input => input.addEventListener('change', handleUpdate));
+    // Add an event listener that listens to a mouse move on the inputs and call handleUpdate
     inputs.forEach(input => input.addEventListener('mousemove', handleUpdate));
   </script>
-
 
 </body>
 </html>
