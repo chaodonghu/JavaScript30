@@ -18,7 +18,7 @@
     <input id="base" type="color" name="base" value="#ffc600">
   </div>
 
-  <img src="https://source.unsplash.com/7bwQXzbF6KE/800x500">
+  <img src="./image.jpg">
 
   <style>
 
@@ -68,6 +68,7 @@
       // Dataset puts all of the keys with data- into an object
       const suffix = this.dataset.sizing || '';
 
+      // document.documentElement returns the root element of the document
       // Grab the name property of each input tag and update it by appending the value which we
       //  get from the input event Listener and append the suffix which grabs the pixels
       document.documentElement.style.setProperty(`--${this.name}`, this.value + suffix);
