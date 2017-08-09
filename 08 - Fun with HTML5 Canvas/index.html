@@ -7,57 +7,65 @@
 <body>
 <canvas id="draw" width="800" height="800"></canvas>
 <script>
+// Grab the canvas
 const canvas = document.querySelector('#draw');
+// Grab the context
 const ctx = canvas.getContext('2d');
 canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
+
 ctx.strokeStyle = '#BADA55';
 ctx.lineJoin = 'round';
 ctx.lineCap = 'round';
-ctx.lineWidth = 100;
-// ctx.globalCompositeOperation = 'multiply';
+ctx.lineWidth = 50;
+ctx.globalCompositeOperation = 'multiply';
 
+// Set flag to draw on the canvas
 let isDrawing = false;
 let lastX = 0;
 let lastY = 0;
+// Set the color to be red
 let hue = 0;
 let direction = true;
 
 function draw(e) {
-  if (!isDrawing) return; // stop the fn from running when they are not moused down
-  console.log(e);
+  // Stop the function from running when they are not moused down
+  if(!isDrawing){
+    return;
+  }
   ctx.strokeStyle = `hsl(${hue}, 100%, 50%)`;
   ctx.beginPath();
-  // start from
+  // Starting from
   ctx.moveTo(lastX, lastY);
-  // go to
+  // lineto method adds a new point and creates a line TO that point FROM the
+  // last specified point in the canvas
   ctx.lineTo(e.offsetX, e.offsetY);
   ctx.stroke();
   [lastX, lastY] = [e.offsetX, e.offsetY];
-
+  // Increment the color
   hue++;
-  if (hue >= 360) {
+  // Reset hue to 0 once it reaches 360
+  if (hue >+ 360) {
     hue = 0;
   }
-  if (ctx.lineWidth >= 100 || ctx.lineWidth <= 1) {
+
+  if (ctx.lineWidth >= 100 || ctx.lineWidth <=1) {
+    // Flip the direction
     direction = !direction;
   }
-
   if(direction) {
     ctx.lineWidth++;
   } else {
     ctx.lineWidth--;
   }
-
 }
 
+canvas.addEventListener('mousemove', draw);
 canvas.addEventListener('mousedown', (e) => {
   isDrawing = true;
+  // On mousedown, set the starting point of the line based on the user's mouse location
   [lastX, lastY] = [e.offsetX, e.offsetY];
 });
-
-
-canvas.addEventListener('mousemove', draw);
 canvas.addEventListener('mouseup', () => isDrawing = false);
 canvas.addEventListener('mouseout', () => isDrawing = false);
 
